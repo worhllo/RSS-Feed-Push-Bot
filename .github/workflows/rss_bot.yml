@@ -2,7 +2,7 @@ name: RSS Bot
 
 on:
   schedule:
-    - cron: "*/10 * * * *"
+    - cron: "0 * * * *"  # 每60分钟（1小时）执行一次，UTC时区
   workflow_dispatch:
 
 permissions:

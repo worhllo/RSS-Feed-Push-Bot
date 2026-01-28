@@ -26,8 +26,6 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-        
-
       # 执行 RSS 推送脚本
       - name: Run RSS bot
         env:

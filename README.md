@@ -27,8 +27,16 @@
   - 如果安装失败，尝试升级 `pip`：`pip install --upgrade pip`。
   - 如果提示`缺少依赖 feedparser，请先执行：pip install -r requirements.txt`，尝试执行`pip install feedparser`
 ---
-
-### 2. 配置 RSS 地址：编辑 `rss.config` 文件
+### 2. GitHub 仓库密钥配置（最关键，否则脚本无权限运行）
+- 打开你的 GitHub 仓库 → 点击顶部「Settings」（设置）
+- 左侧菜单栏找到「Secrets and variables」→ 选择「Actions」
+- 点击右上角「New repository secret」（新建仓库密钥）
+- 分别添加 2 个密钥（可以2个都填，也可以任填一个）：
+名称：TELEGRAM_BOT_TOKEN → 值：你的 Telegram 机器人 Token（从 @BotFather 获取）
+名称：WEBHOOK → 值：你的机器人 Webhook 地址（需 HTTPS，本地调试用 ngrok，服务器用域名）
+✅ 注意：密钥名称必须和配置文件中的一致（大小写敏感），否则脚本会提示「环境变量缺失」。
+---
+### 3. 配置 RSS 地址：编辑 `rss.config` 文件
 这个文件用来存放你想要订阅的 RSS 源地址，脚本会定期抓取这些源的更新。
 - **操作步骤**：
   1.  用任意文本编辑器（如 VS Code、记事本、TextEdit）打开项目里的 `rss.config` 文件。
@@ -49,7 +57,7 @@
 
 ---
 
-### 3. 配置消息通道：设置 Telegram Bot Token 和 Webhook
+### 4. 配置消息通道：设置 Telegram Bot Token 和 Webhook
 这一步是让脚本和你的 Telegram 机器人绑定，实现消息推送和交互。
 #### 🔹 先获取 Telegram Bot Token
 1.  打开 Telegram，搜索 `@BotFather` 并发送 `/newbot`。
@@ -84,7 +92,7 @@ Webhook 是 Telegram 用来给你的脚本推送用户指令（如 `/start`）�
 
 ---
 
-### 4. 运行脚本：`python rss_bot.py`
+### 5. 运行脚本：`python rss_bot.py`
 一切配置完成后，启动脚本开始工作。
 - **操作步骤**：
   1.  确保终端还在项目文件夹里（如果之前关闭了，重新用 `cd` 进入）。

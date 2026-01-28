@@ -2,11 +2,11 @@ name: RSS Bot
 
 on:
   schedule:
-    - cron: "*/10 * * * *"
-  workflow_dispatch:
+    - cron: "*/10 * * * *"  # 每10分钟执行，可按需求修改
+  workflow_dispatch:        # 保留手动触发，方便测试
 
 permissions:
-  contents: write
+  contents: write           # 必须保留，用于提交data.json到仓库
 
 jobs:
   rss-bot:
@@ -22,18 +22,20 @@ jobs:
         with:
           python-version: "3.11"
 
-      # 安装依赖
+      # 安装依赖（核心优化：升级pip+国内源加速，避免安装失败/超时）
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          python3 -m pip install --upgrade pip  # 升级pip到最新版，解决依赖安装兼容问题
+          pip3 install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple  # 国内源加速，适配国外服务器
 
-      # 执行 RSS 推送脚本
+      # 执行 RSS 推送脚本（适配Ubuntu：python3替代python，避免指向Python2）
       - name: Run RSS bot
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           WEBHOOK: ${{ secrets.WEBHOOK }}
-        run: python rss_bot.py
+        run: python3 rss_bot.py
 
-      # 仅在历史记录有变化时提交
+      # 仅在历史记录有变化时提交（原逻辑不变，严谨无空提交）
       - name: Commit history update
         if: ${{ success() }}
         run: |
